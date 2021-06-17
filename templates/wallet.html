@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table class="table">
+    <tr>
+        <th>Rafmyntir</th>
+        <th>Fjöldi</th>
+        <th>Auður</th>
+        <th>Verð</th>
+        <th>Hagnaður</th>
+    </tr>
+    {% for crypto, value in wallet.items() %}
+    <tr>
+        <th>{{ crypto }}</th>
+        <th>{{ value|float|round(2) }}</th>
+        <th>${{ prices[crypto]|float|round(2) }}</th>
+        <th>${{ (value*prices[crypto])|float|round(2) }}</th>
+        <th>${{ profits[crypto]|float|round(2) }}</th>
+
+    </tr>
+        <!--<div>{{ crypto }}: {{ value }} : {{ prices[crypto] }} : {{ value*prices[crypto] }} : {{ profits[crypto] }}</div>-->
+    {% endfor %}
+</table>
+
+{% endblock %}
