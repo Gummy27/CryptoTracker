@@ -3,23 +3,22 @@
 {% block content %}
 <table class="table">
     <tr>
-        <th>Rafmyntir</th>
-        <th>Fjöldi</th>
-        <th>Auður</th>
-        <th>Verð</th>
-        <th>Hagnaður</th>
-    </tr>
-    {% for crypto, value in wallet.items() %}
-    <tr>
-        <th>{{ crypto }}</th>
-        <th>{{ value|float|round(2) }}</th>
-        <th>${{ prices[crypto]|float|round(2) }}</th>
-        <th>${{ (value*prices[crypto])|float|round(2) }}</th>
-        <th>${{ profits[crypto]|float|round(2) }}</th>
-
-    </tr>
-        <!--<div>{{ crypto }}: {{ value }} : {{ prices[crypto] }} : {{ value*prices[crypto] }} : {{ profits[crypto] }}</div>-->
+    <th>Crypto</th>
+    {% for category in overviewData %}
+        <th>{{ category }}</th>
     {% endfor %}
+    </tr>
+    {% for crypto in cryptoList %}
+    <tr>
+        <th><a href={{ url_for("cryptoView", crypto=crypto) }}>{{ crypto }}</a></th>
+        {% for category in overviewData %}
+            <th>{{ overviewData[category][crypto] }}</th>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    <tr>
+        <th>Samtals: {{ sum|float|round(2) }}</th>
+        <th>Hagnaður: {{ (sum-sumBaseline)|float|round(2) }}</th>
+    </tr>
 </table>
-
 {% endblock %}

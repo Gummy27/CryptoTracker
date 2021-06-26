@@ -1,18 +1,29 @@
 from flask import Flask, render_template, url_for
 
 # Föll úr öðrum skrám
-from cryptoCharts import showCryptoChart
-from jsonReader import getJson, getPrices, getWallet, calculateProfit
+from variables import *
+from htmlConstructors import *
 
 app = Flask(__name__)
 
-data = getJson()
+getJson()
 
 @app.route("/")
 def home():  
-    print("This is the test", getWallet())  
-    return render_template("wallet.html", wallet=getWallet(), prices=getPrices(), profits=calculateProfit())
+    return render_template("wallet.html", 
+        overviewData=constructOverview(), 
+        cryptoList=[x for x in getWallet(getDate())],
+        sum = calculateSum(getDate()),
+        sumBaseline = calculateSumBaseline()
+    )
+
+@app.route("/<crypto>")
+def cryptoView(crypto):
+    return render_template("crypto.html",
+        crypto=crypto,
+        data=constructCrypto(crypto.upper())
+    )
 
 @app.route("/json")
 def testJson():
-    return data
+    return getJson()

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="crypto">
+    <h1>{{ crypto }}</h1>
+    <table class="table">
+        <tr>
+            <th>Fjöldi</th>
+            <th>Verð</th>
+            <th>Auður</th>
+            <th>Hagnaður</th>
+        </tr>
+        <tr>
+            <th>{{ data["amount"]|round(5) }}</th>
+            <th>${{ data["value"]|round(2) }}</th>
+            <th>${{ data["USD"]|round(2) }}</th>
+            <th>${{ data["profit"]|round(2) }}</th>
+        </tr>
+    </table>
+    <h2>Logs:</h2>
+    <table class="table" id="cryptoTable">
+        <tr>
+            <th>Dagsetning</th>
+            <th>Fjöldi</th>
+            <th>Verð</th>
+            <th id="cryptoProfits">Auður</th>
+        </tr>
+        {% for date in data["complete"] %}
+        <tr class="logs" id="{{ date }}">
+            <th>{{ date }}</th>
+            <th>{{ data["complete"][date][crypto]["amount"]|round(5) }}</th>
+            <th>${{ data["complete"][date][crypto]["value"]|round(2) }}</th>
+            <th>${{ data["complete"][date][crypto]["USD"]|round(2) }}</th>
+        </tr>
+        {% endfor %}
+        <script src="{{ url_for('static', filename='scripts/order.js') }}"></script>
+    </table>
+</div>
+{% endblock %}
